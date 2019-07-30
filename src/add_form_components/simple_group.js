@@ -38,13 +38,15 @@ export default class SimpleGroup extends Component {
         newStateContent[e.id] = e;
         this.setState({
             items: newStateContent
+        },()=>{
+            this.props.handle_on_change(this.state)
         });
-        this.props.handle_on_change(this.state)
     }
 
     handle_on_change_group_name(e) {
-        this.setState({group_name: e.target.value});
-        this.props.handle_on_change(this.state)
+        this.setState({group_name: e.target.value},()=>{
+            this.props.handle_on_change(this.state)
+        });
     }
 
     handle_on_change_key(e){
@@ -53,8 +55,18 @@ export default class SimpleGroup extends Component {
     }
 
     handle_on_change_value(e){
-        this.setState({value:e.target.value});
-        this.props.handle_on_change(this.state)
+        this.setState({value:e.target.value},()=>{
+            this.props.handle_on_change(this.state)
+        });
+    }
+
+    handle_delete(e) {
+        const newStateContent = this.state.items.splice([e.id],0);
+        this.setState({
+            items: newStateContent
+        },()=>{
+            this.props.handle_on_change(this.state)
+        });
     }
 
     render() {
@@ -65,13 +77,18 @@ export default class SimpleGroup extends Component {
                         placeholder={'Group Name'}
                         defaultValue={""}
                         onChange={(e) => this.handle_on_change_group_name(e)}
+
                     />
+
+                    <button onClick={(e) => this.props.handle_delete(this.state)}>Delete Group</button>
+
                     {this.state.items.map((object, i) => {
                         return (
                             <SimpleGroup
                                 key={i}
                                 id={i}
                                 type={object['type']}
+                                handle_delete={(e)=>this.handle_delete(e)}
                                 handle_on_change={(e) => this.handle_on_change(e)}
                             />
                         );
@@ -97,6 +114,9 @@ export default class SimpleGroup extends Component {
                         onChange={(e)=>this.handle_on_change_value(e)}
                         id={this.props.id}
                     />
+
+                    <button onClick={(e) => this.props.handle_delete(this.state)}>Delete Input</button>
+
                 </div>
             );
 

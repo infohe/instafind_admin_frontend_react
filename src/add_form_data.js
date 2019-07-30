@@ -23,6 +23,13 @@ export default class add_form_data extends Component {
         });
     }
 
+    handle_delete(e) {
+        const newStateContent = this.state.content.splice([e.id],0);
+        this.setState({
+            content: newStateContent
+        });
+    }
+
     handle_generate_json(){
         console.log(JSON.stringify(this.state.content));
     }
@@ -38,15 +45,13 @@ export default class add_form_data extends Component {
                         id={i}
                         type={'group'}
                         handle_on_change={(e)=>this.handle_on_change(e)}
-
+                        handle_delete={(e)=>this.handle_delete(e)}
                     />
                     );})}
                 </div>
                 <button onClick={(e) => this.handle_add_component(e)}>Add Group</button>
                 <button onClick={(e) => this.handle_generate_json(e)}>Generate JSON</button>
                 <pre>{JSON.stringify(this.state.content, null, 2) }</pre>
-                {/*<text>*/}
-                    {/*{JSON.stringify(this.state.content)}</text>*/}
             </div>
         );
     }

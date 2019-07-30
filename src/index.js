@@ -9,8 +9,7 @@ import add_form_data from "./add_form_data";
 ReactDOM.render(<Router>
     <div>
         <Switch>
-            <Route path="/add_form_data" exact component={add_form_data}/>
-            <Route path="/" exact component={main_page}/>
+            <Route path="/" exact component={add_form_data}/>
             <Route component={Not_found}/>
         </Switch>
     </div>
